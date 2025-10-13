@@ -11,8 +11,14 @@
             background: linear-gradient(135deg, #ff7e5f 0%, #48bb78 50%, #feb47b 100%);
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto;
+            flex: 1;
+        }
         
         .header { text-align: center; margin-bottom: 30px; color: white; }
         .logo { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 15px; }
@@ -33,7 +39,7 @@
             margin-bottom: 20px; 
             border-bottom: 2px solid #ff7e5f; 
             padding-bottom: 8px;
-            text-align: center; /* Центрирование заголовков */
+            text-align: center;
         }
         
         .form-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
@@ -76,7 +82,7 @@
             color: white; 
             padding: 12px 15px; 
             font-weight: 600;
-            text-align: center; /* Центрирование заголовка отчёта */
+            text-align: center;
         }
         .report { 
             padding: 20px; 
@@ -102,7 +108,6 @@
         
         .full-width { grid-column: 1 / -1; }
         
-        /* Стили для админ-отчёта */
         .admin-section { margin-top: 25px; }
         .admin-report-container { 
             background: #f7fafc; 
@@ -179,11 +184,21 @@
             color: #2b6cb0;
         }
 
-        /* Центрирование заголовка админ-секции */
         .admin-section h2 {
             text-align: center;
             color: #2d3748;
             margin-bottom: 20px;
+        }
+        
+        /* Стили для футера */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            color: white;
+            font-size: 14px;
+            opacity: 0.8;
+            border-top: 1px solid rgba(255,255,255,0.2);
         }
     </style>
 </head>
@@ -201,7 +216,7 @@
                 <span class="check-mark">✔</span><span>→</span>
                 <span class="check-mark">✔</span>
             </div>
-            <p>Система формирования ежедневных отчётов</p> <!-- Убрано "Профессиональная" -->
+            <p>Система формирования ежедневных отчётов</p>
         </div>
 
         <div class="grid">
@@ -256,7 +271,7 @@
                         <input type="number" id="section06" value="" oninput="updateAll()">
                     </div>
                     <div class="form-group">
-                        <label>Секция 08 (Ножи)</label> <!-- Добавлено (Ножи) -->
+                        <label>Секция 08 (Ножи)</label>
                         <input type="number" id="section08" value="" oninput="updateAll()">
                     </div>
                     <div class="form-group">
@@ -295,9 +310,9 @@
             </div>
 
             <div class="card">
-                <h2>📄 Предпросмотр отчёта</h2> <!-- Исправлен смайлик -->
+                <h2>📄 Предпросмотр отчёта</h2>
                 <div class="report-container">
-                    <div class="report-header">Ваш отчёт:</div> <!-- Центрировано -->
+                    <div class="report-header">Ваш отчёт:</div>
                     <pre class="report" id="reportOutput"></pre>
                 </div>
                 <div class="buttons">
@@ -310,7 +325,7 @@
 
                 <!-- Ежедневный отчёт для администратора -->
                 <div class="admin-section">
-                    <h2>👑 Ежедневный отчёт для администратора</h2> <!-- Центрировано -->
+                    <h2>👑 Ежедневный отчёт для администратора</h2>
                     <div class="city-selector">
                         <label>Город:</label>
                         <select id="city" onchange="handleCityChange()">
@@ -356,6 +371,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Футер с информацией о разработчиках -->
+    <div class="footer">
+        Разработчики: Конев Сергей, Куницын Александр г.Новокузнецк 2025
     </div>
 
     <script>
