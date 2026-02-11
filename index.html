@@ -596,14 +596,14 @@
             document.getElementById('sealsPercent').value = `${sealsPercent}%`;
         }
 
-        // Функция для расчета процента наличных в камере хранения
+        // Функция для расчета процента наличных в камере хранения (используется только в обычном отчете)
         function calcStorageCashPercent() {
             const storageRevenue = parseFloat(getValue('storageRevenue')) || 0;
             const storageCash = parseFloat(getValue('storageCash')) || 0;
             return storageRevenue > 0 ? Math.round((storageCash / storageRevenue) * 100) : 0;
         }
 
-        // Функция для расчета процента эквайринга в камере хранения
+        // Функция для расчета процента эквайринга в камере хранения (используется только в обычном отчете)
         function calcStorageAcquiringPercent() {
             const storageRevenue = parseFloat(getValue('storageRevenue')) || 0;
             const storageAcquiring = parseFloat(getValue('storageAcquiring')) || 0;
@@ -686,10 +686,8 @@ ${fio}
             const revenue = getValue('revenue');
             const section03 = getValue('section03');
             
-            // Данные камеры хранения
+            // Данные камеры хранения (только выручка, багаж и пломбы)
             const storageRevenue = getValue('storageRevenue');
-            const storageCash = getValue('storageCash');
-            const storageAcquiring = getValue('storageAcquiring');
             const luggageCount = getValue('luggageCount');
             const sealsCount = getValue('sealsCount');
 
@@ -707,8 +705,6 @@ PF: ${formatInteger(protect)}(${calcPercent(protect, packs)}%)
 Происшествия: нет
 - - - 
 Выручка КХ: ${formatInteger(storageRevenue)}
-Наличные КХ: ${formatInteger(storageCash)} (${calcStorageCashPercent()}%)
-Эквайринг КХ: ${formatInteger(storageAcquiring)} (${calcStorageAcquiringPercent()}%)
 Багажное место: ${formatInteger(luggageCount)}
 Пломбы: ${formatInteger(sealsCount)} (${calcPercent(sealsCount, luggageCount)}%)`;
 
