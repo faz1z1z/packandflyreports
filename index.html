@@ -221,6 +221,12 @@
             gap: 15px;
         }
         
+        @media (max-width: 768px) {
+            .storage-form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
         @media (max-width: 480px) {
             .storage-form-grid {
                 grid-template-columns: 1fr;
@@ -363,13 +369,21 @@
                     </div>
                 </div>
 
-                <!-- Новый блок: Камера хранения -->
+                <!-- Новый блок: Камера хранения с полным набором полей -->
                 <div class="storage-section">
                     <h2>📦 Камера хранения</h2>
                     <div class="storage-form-grid">
                         <div class="form-group">
                             <label>Выручка КХ</label>
                             <input type="number" id="storageRevenue" value="" oninput="updateAll()">
+                        </div>
+                        <div class="form-group">
+                            <label>Наличные КХ</label>
+                            <input type="number" id="storageCash" value="" oninput="updateAll()">
+                        </div>
+                        <div class="form-group">
+                            <label>Эквайринг КХ</label>
+                            <input type="number" id="storageAcquiring" value="" oninput="updateAll()">
                         </div>
                         <div class="form-group">
                             <label>Багажное место</label>
@@ -582,6 +596,20 @@
             document.getElementById('sealsPercent').value = `${sealsPercent}%`;
         }
 
+        // Функция для расчета процента наличных в камере хранения
+        function calcStorageCashPercent() {
+            const storageRevenue = parseFloat(getValue('storageRevenue')) || 0;
+            const storageCash = parseFloat(getValue('storageCash')) || 0;
+            return storageRevenue > 0 ? Math.round((storageCash / storageRevenue) * 100) : 0;
+        }
+
+        // Функция для расчета процента эквайринга в камере хранения
+        function calcStorageAcquiringPercent() {
+            const storageRevenue = parseFloat(getValue('storageRevenue')) || 0;
+            const storageAcquiring = parseFloat(getValue('storageAcquiring')) || 0;
+            return storageRevenue > 0 ? Math.round((storageAcquiring / storageRevenue) * 100) : 0;
+        }
+
         // Функция обновления основного отчета
         function updateReport() {
             const reportOutput = document.getElementById('reportOutput');
@@ -605,7 +633,11 @@
             const packs = getValue('packs');
             const rolls = getValue('rolls');
             const salesList = formatSalesList(getValue('salesList'));
+            
+            // Данные камеры хранения
             const storageRevenue = getValue('storageRevenue');
+            const storageCash = getValue('storageCash');
+            const storageAcquiring = getValue('storageAcquiring');
             const luggageCount = getValue('luggageCount');
             const sealsCount = getValue('sealsCount');
 
@@ -629,8 +661,10 @@ ${fio}
 –––––––––––––––––––––––––
 Камера хранения:
 Выручка КХ: ${formatInteger(storageRevenue)}
+Наличные КХ: ${formatInteger(storageCash)} (${calcStorageCashPercent()}%)
+Эквайринг КХ: ${formatInteger(storageAcquiring)} (${calcStorageAcquiringPercent()}%)
 Багажное место: ${formatInteger(luggageCount)}
-Пломбы: ${formatInteger(sealsCount)}(${calcPercent(sealsCount, luggageCount)}%)`;
+Пломбы: ${formatInteger(sealsCount)} (${calcPercent(sealsCount, luggageCount)}%)`;
 
             reportOutput.textContent = report;
         }
@@ -651,7 +685,11 @@ ${fio}
             const checks = getValue('checks');
             const revenue = getValue('revenue');
             const section03 = getValue('section03');
+            
+            // Данные камеры хранения
             const storageRevenue = getValue('storageRevenue');
+            const storageCash = getValue('storageCash');
+            const storageAcquiring = getValue('storageAcquiring');
             const luggageCount = getValue('luggageCount');
             const sealsCount = getValue('sealsCount');
 
@@ -669,8 +707,10 @@ PF: ${formatInteger(protect)}(${calcPercent(protect, packs)}%)
 Происшествия: нет
 - - - 
 Выручка КХ: ${formatInteger(storageRevenue)}
+Наличные КХ: ${formatInteger(storageCash)} (${calcStorageCashPercent()}%)
+Эквайринг КХ: ${formatInteger(storageAcquiring)} (${calcStorageAcquiringPercent()}%)
 Багажное место: ${formatInteger(luggageCount)}
-Пломбы: ${formatInteger(sealsCount)}(${calcPercent(sealsCount, luggageCount)}%)`;
+Пломбы: ${formatInteger(sealsCount)} (${calcPercent(sealsCount, luggageCount)}%)`;
 
             adminReportOutput.textContent = adminReport;
 
@@ -767,10 +807,15 @@ PF: ${formatInteger(protect)}(${calcPercent(protect, packs)}%)
             document.getElementById('packs').value = '';
             document.getElementById('rolls').value = '';
             document.getElementById('salesList').value = '';
+            
+            // Сбрасываем поля камеры хранения
             document.getElementById('storageRevenue').value = '';
+            document.getElementById('storageCash').value = '';
+            document.getElementById('storageAcquiring').value = '';
             document.getElementById('luggageCount').value = '';
             document.getElementById('sealsCount').value = '';
             document.getElementById('sealsPercent').value = '0%';
+            
             document.getElementById('city').value = 'Новокузнецк';
             document.getElementById('cityCustom').value = '';
             document.getElementById('cityCustom').style.display = 'none';
